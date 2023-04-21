@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8773b088-3dde-4c2c-b1ae-0d6f0570f65d"
+      }
+    },
+    "owner": "brett.ranieri"
   }
 }
