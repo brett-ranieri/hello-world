@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Button, TextInput } from "react-native";
+import { CheckBox } from "react-native-web";
 
 const Start = ({ navigation }) => {
 	const [name, setName] = useState("");
-
-	// let checkName;
-	// checkName = () => {
-	// 	console.log("Username ", name);
-	// };
 
 	return (
 		<View style={styles.container}>
@@ -21,6 +17,20 @@ const Start = ({ navigation }) => {
 				></TextInput>
 				<View style={styles.backgroundContainer}>
 					<Text style={styles.text}>Choose Background Color:</Text>
+					<View style={styles.optionsContainer}>
+						<TouchableOpacity
+							style={[styles.backgroundOptions, { backgroundColor: "#090C08" }]}
+						></TouchableOpacity>
+						<TouchableOpacity
+							style={[styles.backgroundOptions, { backgroundColor: "#474056" }]}
+						></TouchableOpacity>
+						<TouchableOpacity
+							style={[styles.backgroundOptions, { backgroundColor: "#8A95A5" }]}
+						></TouchableOpacity>
+						<TouchableOpacity
+							style={[styles.backgroundOptions, { backgroundColor: "#B9C6AE" }]}
+						></TouchableOpacity>
+					</View>
 				</View>
 				<TouchableOpacity
 					style={styles.chatButton}
@@ -79,6 +89,17 @@ const styles = StyleSheet.create({
 	backgroundContainer: {
 		opacity: "100%",
 		width: "88%",
+	},
+	optionsContainer: {
+		flexDirection: "row",
+		justifyContent: "flex-start",
+	},
+	backgroundOptions: {
+		height: 40,
+		width: 40,
+		backgroundColor: "red",
+		borderRadius: 20,
+		margin: 10,
 	},
 	chatButton: {
 		height: 45,
