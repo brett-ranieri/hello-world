@@ -11,19 +11,22 @@ const Start = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Text>hello-world</Text>
+			<Text style={styles.appTitle}>hello-world</Text>
 			<View style={styles.inputContainer}>
 				<TextInput
-					style={styles.textInput}
-					placeholder='Choose your Username'
+					style={[styles.text, styles.textInput]}
+					placeholder='Your Name'
 					value={name}
 					onChangeText={setName}
 				></TextInput>
+				<View style={styles.backgroundContainer}>
+					<Text style={styles.text}>Choose Background Color:</Text>
+				</View>
 				<TouchableOpacity
-					style={styles.button}
+					style={styles.chatButton}
 					onPress={() => navigation.navigate("Chat", { name: name })}
 				>
-					Start Chatting
+					Start Chating
 				</TouchableOpacity>
 				{/* <Button
 					title='Check Username'
@@ -37,32 +40,55 @@ const Start = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		flexDirection: "column",
 		justifyContent: "space-evenly",
 		alignItems: "center",
-		// alignContent: "space-evenly",
+		alignContent: "flex-end",
+		backgroundColor: "#000000",
+	},
+	appTitle: {
+		flex: 1,
+		width: "100%",
+		height: "100%",
+		fontSize: 45,
+		fontWeight: "600",
+		color: "#ffffff",
+		textAlign: "center",
+		paddingTop: "10%",
 	},
 	inputContainer: {
 		width: "88%",
 		height: "44%",
-		// flex: 1,
-		alignSelf: "flex-end",
-		justifyContent: "center",
+		justifyContent: "space-around",
 		alignItems: "center",
-		backgroundColor: "blue",
+		backgroundColor: "#ffffff",
+		marginBottom: "6%",
+	},
+	text: {
+		fontSize: 16,
+		fontWeight: "300",
+		color: "#757083",
 	},
 	textInput: {
+		height: 45,
 		width: "88%",
+		opacity: "50%",
 		borderWidth: 1,
-		height: 30,
-		padding: 10,
+		paddingLeft: 12,
 	},
-	button: {
-		height: 30,
-		width: 100,
+	backgroundContainer: {
+		opacity: "100%",
+		width: "88%",
+	},
+	chatButton: {
+		height: 45,
+		width: "88%",
+		fontSize: 16,
+		fontWeight: "600",
+		color: "#ffffff",
 		justifyContent: "center",
 		textAlign: "center",
-		backgroundColor: "white",
-		borderRadius: 3,
+		backgroundColor: "#757083",
 	},
 });
 
