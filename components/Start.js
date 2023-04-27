@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Button, TextInput } from "react-native";
-import { CheckBox } from "react-native-web";
 
 const Start = ({ navigation }) => {
 	const [name, setName] = useState("");
 	const [background, setBackground] = useState("#ffffff");
+	const [buttonIndex, setButtonIndex] = useState();
 
 	function changeBackground(color) {
 		setBackground(color);
+	}
+
+	function buttonBorder(index) {
+		setButtonIndex(index);
 	}
 
 	return (
@@ -24,20 +28,48 @@ const Start = ({ navigation }) => {
 					<Text style={styles.text}>Choose Background Color:</Text>
 					<View style={styles.optionsContainer}>
 						<TouchableOpacity
-							onPress={() => changeBackground("#090C08")}
-							style={[styles.backgroundOptions, { backgroundColor: "#090C08" }]}
+							onPress={() => {
+								changeBackground("#090C08");
+								buttonBorder(0);
+							}}
+							style={[
+								styles.backgroundOptions,
+								{ backgroundColor: "#090C08" },
+								{ borderColor: buttonIndex === 0 ? "#757083" : "#ffffff" },
+							]}
 						></TouchableOpacity>
 						<TouchableOpacity
-							onPress={() => changeBackground("#474056")}
-							style={[styles.backgroundOptions, { backgroundColor: "#474056" }]}
+							onPress={() => {
+								changeBackground("#474056");
+								buttonBorder(1);
+							}}
+							style={[
+								styles.backgroundOptions,
+								{ backgroundColor: "#474056" },
+								{ borderColor: buttonIndex === 1 ? "#757083" : "#ffffff" },
+							]}
 						></TouchableOpacity>
 						<TouchableOpacity
-							onPress={() => changeBackground("#8A95A5")}
-							style={[styles.backgroundOptions, { backgroundColor: "#8A95A5" }]}
+							onPress={() => {
+								changeBackground("#8A95A5");
+								buttonBorder(2);
+							}}
+							style={[
+								styles.backgroundOptions,
+								{ backgroundColor: "#8A95A5" },
+								{ borderColor: buttonIndex === 2 ? "#757083" : "#ffffff" },
+							]}
 						></TouchableOpacity>
 						<TouchableOpacity
-							onPress={() => changeBackground("#B9C6AE")}
-							style={[styles.backgroundOptions, { backgroundColor: "#B9C6AE" }]}
+							onPress={() => {
+								changeBackground("#B9C6AE");
+								buttonBorder(3);
+							}}
+							style={[
+								styles.backgroundOptions,
+								{ backgroundColor: "#B9C6AE" },
+								{ borderColor: buttonIndex === 3 ? "#757083" : "#ffffff" },
+							]}
 						></TouchableOpacity>
 					</View>
 				</View>
@@ -102,9 +134,10 @@ const styles = StyleSheet.create({
 	backgroundOptions: {
 		height: 40,
 		width: 40,
-		backgroundColor: "red",
 		borderRadius: 20,
 		margin: 10,
+		borderWidth: 3,
+		padding: 3,
 	},
 	chatButton: {
 		height: 45,
