@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Button, TextInput } from "react-native";
+import {
+	StyleSheet,
+	View,
+	Text,
+	TouchableOpacity,
+	Button,
+	TextInput,
+	ImageBackground,
+} from "react-native";
 
 const Start = ({ navigation }) => {
 	const [name, setName] = useState("");
@@ -16,70 +24,76 @@ const Start = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.appTitle}>hello-world</Text>
-			<View style={styles.inputContainer}>
-				<TextInput
-					style={[styles.text, styles.textInput]}
-					placeholder='Your Name'
-					value={name}
-					onChangeText={setName}
-				></TextInput>
-				<View style={styles.backgroundContainer}>
-					<Text style={styles.text}>Choose Background Color:</Text>
-					<View style={styles.optionsContainer}>
-						<TouchableOpacity
-							onPress={() => {
-								changeBackground("#090C08");
-								buttonBorder(0);
-							}}
-							style={[
-								styles.backgroundOptions,
-								{ backgroundColor: "#090C08" },
-								{ borderColor: buttonIndex === 0 ? "#757083" : "#ffffff" },
-							]}
-						></TouchableOpacity>
-						<TouchableOpacity
-							onPress={() => {
-								changeBackground("#474056");
-								buttonBorder(1);
-							}}
-							style={[
-								styles.backgroundOptions,
-								{ backgroundColor: "#474056" },
-								{ borderColor: buttonIndex === 1 ? "#757083" : "#ffffff" },
-							]}
-						></TouchableOpacity>
-						<TouchableOpacity
-							onPress={() => {
-								changeBackground("#8A95A5");
-								buttonBorder(2);
-							}}
-							style={[
-								styles.backgroundOptions,
-								{ backgroundColor: "#8A95A5" },
-								{ borderColor: buttonIndex === 2 ? "#757083" : "#ffffff" },
-							]}
-						></TouchableOpacity>
-						<TouchableOpacity
-							onPress={() => {
-								changeBackground("#B9C6AE");
-								buttonBorder(3);
-							}}
-							style={[
-								styles.backgroundOptions,
-								{ backgroundColor: "#B9C6AE" },
-								{ borderColor: buttonIndex === 3 ? "#757083" : "#ffffff" },
-							]}
-						></TouchableOpacity>
+			<ImageBackground
+				style={styles.imgBackground}
+				source={require("../assets/Background_Image.png")}
+				resizeMode='cover'
+			>
+				<Text style={styles.appTitle}>hello-world</Text>
+				<View style={styles.inputContainer}>
+					<TextInput
+						style={[styles.text, styles.textInput]}
+						placeholder='Your Name'
+						value={name}
+						onChangeText={setName}
+					></TextInput>
+					<View style={styles.backgroundContainer}>
+						<Text style={styles.text}>Choose Background Color:</Text>
+						<View style={styles.optionsContainer}>
+							<TouchableOpacity
+								onPress={() => {
+									changeBackground("#090C08");
+									buttonBorder(0);
+								}}
+								style={[
+									styles.backgroundOptions,
+									{ backgroundColor: "#090C08" },
+									{ borderColor: buttonIndex === 0 ? "#757083" : "#ffffff" },
+								]}
+							></TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => {
+									changeBackground("#474056");
+									buttonBorder(1);
+								}}
+								style={[
+									styles.backgroundOptions,
+									{ backgroundColor: "#474056" },
+									{ borderColor: buttonIndex === 1 ? "#757083" : "#ffffff" },
+								]}
+							></TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => {
+									changeBackground("#8A95A5");
+									buttonBorder(2);
+								}}
+								style={[
+									styles.backgroundOptions,
+									{ backgroundColor: "#8A95A5" },
+									{ borderColor: buttonIndex === 2 ? "#757083" : "#ffffff" },
+								]}
+							></TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => {
+									changeBackground("#B9C6AE");
+									buttonBorder(3);
+								}}
+								style={[
+									styles.backgroundOptions,
+									{ backgroundColor: "#B9C6AE" },
+									{ borderColor: buttonIndex === 3 ? "#757083" : "#ffffff" },
+								]}
+							></TouchableOpacity>
+						</View>
 					</View>
+					<TouchableOpacity
+						style={styles.chatButton}
+						onPress={() => navigation.navigate("Chat", { name: name, background: background })}
+					>
+						Start Chating
+					</TouchableOpacity>
 				</View>
-				<TouchableOpacity
-					style={styles.chatButton}
-					onPress={() => navigation.navigate("Chat", { name: name, background: background })}
-				>
-					Start Chating
-				</TouchableOpacity>
-			</View>
+			</ImageBackground>
 		</View>
 	);
 };
@@ -92,6 +106,12 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		alignContent: "flex-end",
 		backgroundColor: "#000000",
+	},
+	imgBackground: {
+		width: "100%",
+		height: "100%",
+		flex: 1,
+		alignItems: "center",
 	},
 	appTitle: {
 		flex: 1,
