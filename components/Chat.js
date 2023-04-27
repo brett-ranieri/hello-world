@@ -11,7 +11,11 @@ const Chat = ({ navigation, route }) => {
 
 	return (
 		<View style={[styles.container, { backgroundColor: background }]}>
-			<Text>I'm the Chat page!</Text>
+			<Text
+				style={{ color: background == "#090C08" || background == "#474056" ? "#ffffff" : "black" }}
+			>
+				I'm the Chat page!
+			</Text>
 		</View>
 	);
 };
