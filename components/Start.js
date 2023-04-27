@@ -1,23 +1,17 @@
 import { useState } from "react";
-import {
-	StyleSheet,
-	View,
-	Text,
-	TouchableOpacity,
-	Button,
-	TextInput,
-	ImageBackground,
-} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground } from "react-native";
 
 const Start = ({ navigation }) => {
 	const [name, setName] = useState("");
 	const [background, setBackground] = useState("#ffffff");
 	const [buttonIndex, setButtonIndex] = useState();
 
+	// sets background color to pass to Chat screen
 	function changeBackground(color) {
 		setBackground(color);
 	}
 
+	// sets index to determine border on button of choosen background
 	function buttonBorder(index) {
 		setButtonIndex(index);
 	}
@@ -35,7 +29,7 @@ const Start = ({ navigation }) => {
 						style={[styles.text, styles.textInput]}
 						placeholder='Your Name'
 						value={name}
-						onChangeText={setName}
+						onChangeText={setName} //sets Username to pass to Chat screen
 					></TextInput>
 					<View style={styles.backgroundContainer}>
 						<Text style={styles.text}>Choose Background Color:</Text>
@@ -90,7 +84,7 @@ const Start = ({ navigation }) => {
 						style={styles.chatButton}
 						onPress={() => navigation.navigate("Chat", { name: name, background: background })}
 					>
-						<Text style={styles.chatButtonText}>Start Chating</Text>
+						<Text style={styles.chatButtonText}>Start Chatting</Text>
 					</TouchableOpacity>
 				</View>
 			</ImageBackground>

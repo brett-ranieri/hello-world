@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Button, TextInput } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
 const Chat = ({ navigation, route }) => {
 	const { name } = route.params;
 	const { background } = route.params;
 
 	useEffect(() => {
-		navigation.setOptions({ title: name });
+		navigation.setOptions({ title: name }); //sets Username to title on use of component
 	}, [navigation, name]);
 
 	return (
