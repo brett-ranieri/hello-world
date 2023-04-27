@@ -90,7 +90,7 @@ const Start = ({ navigation }) => {
 						style={styles.chatButton}
 						onPress={() => navigation.navigate("Chat", { name: name, background: background })}
 					>
-						<Text style={{ color: "#ffffff" }}>Start Chating</Text>
+						<Text style={styles.chatButtonText}>Start Chating</Text>
 					</TouchableOpacity>
 				</View>
 			</ImageBackground>
@@ -139,12 +139,11 @@ const styles = StyleSheet.create({
 	textInput: {
 		height: 45,
 		width: "88%",
-		opacity: "50%",
+		// opacity: "50%",
 		borderWidth: 1,
 		paddingLeft: 12,
 	},
 	backgroundContainer: {
-		opacity: "100%",
 		width: "88%",
 	},
 	optionsContainer: {
@@ -165,8 +164,12 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: "600",
 		justifyContent: "center",
-		textAlign: "center",
+		alignContent: "center",
 		backgroundColor: "#757083",
+	},
+	chatButtonText: {
+		color: "#ffffff",
+		alignSelf: "center",
 	},
 });
 
