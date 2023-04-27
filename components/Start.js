@@ -4,6 +4,11 @@ import { CheckBox } from "react-native-web";
 
 const Start = ({ navigation }) => {
 	const [name, setName] = useState("");
+	const [background, setBackground] = useState("#ffffff");
+
+	function changeBackground(color) {
+		setBackground(color);
+	}
 
 	return (
 		<View style={styles.container}>
@@ -19,29 +24,29 @@ const Start = ({ navigation }) => {
 					<Text style={styles.text}>Choose Background Color:</Text>
 					<View style={styles.optionsContainer}>
 						<TouchableOpacity
+							onPress={() => changeBackground("#090C08")}
 							style={[styles.backgroundOptions, { backgroundColor: "#090C08" }]}
 						></TouchableOpacity>
 						<TouchableOpacity
+							onPress={() => changeBackground("#474056")}
 							style={[styles.backgroundOptions, { backgroundColor: "#474056" }]}
 						></TouchableOpacity>
 						<TouchableOpacity
+							onPress={() => changeBackground("#8A95A5")}
 							style={[styles.backgroundOptions, { backgroundColor: "#8A95A5" }]}
 						></TouchableOpacity>
 						<TouchableOpacity
+							onPress={() => changeBackground("#B9C6AE")}
 							style={[styles.backgroundOptions, { backgroundColor: "#B9C6AE" }]}
 						></TouchableOpacity>
 					</View>
 				</View>
 				<TouchableOpacity
 					style={styles.chatButton}
-					onPress={() => navigation.navigate("Chat", { name: name })}
+					onPress={() => navigation.navigate("Chat", { name: name, background: background })}
 				>
 					Start Chating
 				</TouchableOpacity>
-				{/* <Button
-					title='Check Username'
-					onPress={() => checkName()}
-				/> */}
 			</View>
 		</View>
 	);

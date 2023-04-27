@@ -3,23 +3,15 @@ import { StyleSheet, View, Text, TouchableOpacity, Button, TextInput } from "rea
 
 const Chat = ({ navigation, route }) => {
 	const { name } = route.params;
-
-	// let checkName;
-	// checkName = () => {
-	// 	console.log("Username ", name);
-	// };
+	const { background } = route.params;
 
 	useEffect(() => {
 		navigation.setOptions({ title: name });
-	}, []);
+	}, [navigation, name]);
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, { backgroundColor: background }]}>
 			<Text>I'm the Chat page!</Text>
-			{/* <Button
-				title='Check Username'
-				onPress={() => checkName()}
-			/> */}
 		</View>
 	);
 };
@@ -29,7 +21,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "space-evenly",
 		alignItems: "center",
-		// alignContent: "space-evenly",
 	},
 });
 
