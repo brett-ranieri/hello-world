@@ -6,13 +6,9 @@ const Start = ({ navigation }) => {
 	const [background, setBackground] = useState("#ffffff");
 	const [buttonIndex, setButtonIndex] = useState();
 
-	// sets background color to pass to Chat screen
-	function changeBackground(color) {
+	// sets background color to pass to Chat screen, index determines border on choosen opacity
+	function changeBackground(color, index) {
 		setBackground(color);
-	}
-
-	// sets index to determine border on button of choosen background
-	function buttonBorder(index) {
 		setButtonIndex(index);
 	}
 
@@ -35,10 +31,7 @@ const Start = ({ navigation }) => {
 						<Text style={styles.text}>Choose Background Color:</Text>
 						<View style={styles.optionsContainer}>
 							<TouchableOpacity
-								onPress={() => {
-									changeBackground("#090C08");
-									buttonBorder(0);
-								}}
+								onPress={() => changeBackground("#090C08", 0)}
 								style={[
 									styles.backgroundOptions,
 									{ backgroundColor: "#090C08" },
@@ -46,10 +39,7 @@ const Start = ({ navigation }) => {
 								]}
 							></TouchableOpacity>
 							<TouchableOpacity
-								onPress={() => {
-									changeBackground("#474056");
-									buttonBorder(1);
-								}}
+								onPress={() => changeBackground("#474056", 1)}
 								style={[
 									styles.backgroundOptions,
 									{ backgroundColor: "#474056" },
@@ -57,10 +47,7 @@ const Start = ({ navigation }) => {
 								]}
 							></TouchableOpacity>
 							<TouchableOpacity
-								onPress={() => {
-									changeBackground("#8A95A5");
-									buttonBorder(2);
-								}}
+								onPress={() => changeBackground("#8A95A5", 2)}
 								style={[
 									styles.backgroundOptions,
 									{ backgroundColor: "#8A95A5" },
@@ -68,10 +55,7 @@ const Start = ({ navigation }) => {
 								]}
 							></TouchableOpacity>
 							<TouchableOpacity
-								onPress={() => {
-									changeBackground("#B9C6AE");
-									buttonBorder(3);
-								}}
+								onPress={() => changeBackground("#B9C6AE", 3)}
 								style={[
 									styles.backgroundOptions,
 									{ backgroundColor: "#B9C6AE" },
