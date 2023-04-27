@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 		fontWeight: "600",
 		color: "#ffffff",
 		textAlign: "center",
-		paddingTop: "10%",
+		paddingTop: "20%",
 	},
 	inputContainer: {
 		width: "88%",
