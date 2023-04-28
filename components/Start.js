@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground } from "react-native";
+import {
+	StyleSheet,
+	View,
+	Text,
+	TouchableOpacity,
+	TextInput,
+	ImageBackground,
+	KeyboardAvoidingView,
+	Platform,
+} from "react-native";
 
 const Start = ({ navigation }) => {
 	const [name, setName] = useState("");
@@ -72,6 +81,8 @@ const Start = ({ navigation }) => {
 					</TouchableOpacity>
 				</View>
 			</ImageBackground>
+			{Platform.OS === "android" ? <KeyboardAvoidingView behavior='height' /> : null}
+			{Platform.OS === "ios" ? <KeyboardAvoidingView behavior='height' /> : null}
 		</View>
 	);
 };
