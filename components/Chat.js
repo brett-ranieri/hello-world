@@ -71,6 +71,7 @@ const Chat = ({ navigation, route }) => {
 				renderBubble={renderBubble}
 			/>
 			{Platform.OS === "android" ? <KeyboardAvoidingView behavior='height' /> : null}
+			{Platform.OS === "ios" ? <KeyboardAvoidingView behavior='height' /> : null}
 		</View>
 	);
 };
