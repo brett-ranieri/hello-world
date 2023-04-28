@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
 import { GiftedChat, Bubble } from "react-native-gifted-chat";
 
 const Chat = ({ navigation, route }) => {
@@ -70,6 +70,7 @@ const Chat = ({ navigation, route }) => {
 				}}
 				renderBubble={renderBubble}
 			/>
+			{Platform.OS === "android" ? <KeyboardAvoidingView behavior='height' /> : null}
 		</View>
 	);
 };
