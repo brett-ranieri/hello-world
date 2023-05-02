@@ -11,7 +11,6 @@ const Chat = ({ navigation, route, db }) => {
 
 	useEffect(() => {
 		navigation.setOptions({ title: name }); //sets Username to title on use of component
-		console.log("userID ", userID);
 		// queries db to load all previous messages
 		const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
 		const unsubMessages = onSnapshot(q, (docs) => {
