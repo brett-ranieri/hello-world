@@ -8,12 +8,30 @@ import {
 	ImageBackground,
 	KeyboardAvoidingView,
 	Platform,
+	Alert,
 } from "react-native";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 const Start = ({ navigation }) => {
 	const [name, setName] = useState("");
 	const [background, setBackground] = useState("#ffffff");
 	const [buttonIndex, setButtonIndex] = useState();
+
+	const auth = getAuth();
+
+	const signInUser = () => {
+		signInAnonymously(auth)
+			.then((result) => {
+				navigation.navigate("Chat", {
+					userID: result.user.uid,
+					name: name,
+					background: background,
+				});
+			})
+			.catch((error) => {
+				Alert.alert("Unable to sign in, try again later.");
+			});
+	};
 
 	// sets background color to pass to Chat screen, index determines border on choosen opacity
 	function changeBackground(color, index) {
@@ -75,7 +93,7 @@ const Start = ({ navigation }) => {
 					</View>
 					<TouchableOpacity
 						style={styles.chatButton}
-						onPress={() => navigation.navigate("Chat", { name: name, background: background })}
+						onPress={() => signInUser()}
 					>
 						<Text style={styles.chatButtonText}>Start Chatting</Text>
 					</TouchableOpacity>
