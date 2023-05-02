@@ -2,11 +2,11 @@
 
 Chat app built for mobile devices using React Native. The app will provide users with a chat interface and options to share images and their location. Expo and Expo Go are used to interface with/test functionality on multiple devices.
 
-## Get Project Running
-
+## Video Demo
 
 https://user-images.githubusercontent.com/115497904/235782985-d3badc67-eeea-4c7d-9cfc-27fcee2d0a55.mp4
 
+## Get Project Running
 
 ### Development
 
