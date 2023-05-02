@@ -4,6 +4,10 @@ Chat app built for mobile devices using React Native. The app will provide users
 
 ## Get Project Running
 
+
+https://user-images.githubusercontent.com/115497904/235782985-d3badc67-eeea-4c7d-9cfc-27fcee2d0a55.mp4
+
+
 ### Development
 
 - Navigate to root folder in terminal
