@@ -5,10 +5,12 @@ import { GiftedChat, Bubble } from "react-native-gifted-chat";
 const Chat = ({ navigation, route }) => {
 	const { name } = route.params;
 	const { background } = route.params;
+	const { userID } = route.params;
 	const [messages, setMessages] = useState([]);
 
 	useEffect(() => {
 		navigation.setOptions({ title: name }); //sets Username to title on use of component
+		console.log("userID ", userID);
 		setMessages([
 			{
 				_id: 1,
