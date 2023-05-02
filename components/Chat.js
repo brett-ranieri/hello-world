@@ -12,7 +12,7 @@ const Chat = ({ navigation, route, db }) => {
 	useEffect(() => {
 		navigation.setOptions({ title: name }); //sets Username to title on use of component
 		console.log("userID ", userID);
-
+		// queries db to load all previous messages
 		const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
 		const unsubMessages = onSnapshot(q, (docs) => {
 			let newMessages = [];
@@ -20,12 +20,12 @@ const Chat = ({ navigation, route, db }) => {
 				newMessages.push({
 					id: doc.id,
 					...doc.data(),
-					createdAt: new Date(doc.data().createdAt.toMillis()),
+					createdAt: new Date(doc.data().createdAt.toMillis()), //updates date to proper format for GiftedChat
 				});
 			});
 			setMessages(newMessages);
 		});
-
+		//cleans up code
 		return () => {
 			if (unsubMessages) unsubMessages();
 		};
