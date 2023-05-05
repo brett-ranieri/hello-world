@@ -3,13 +3,14 @@ import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
 import { GiftedChat, Bubble } from "react-native-gifted-chat";
 import { collection, getDocs, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
 
-const Chat = ({ navigation, route, db }) => {
+const Chat = ({ navigation, route, db, isConnected }) => {
 	const { name } = route.params;
 	const { background } = route.params;
 	const { userID } = route.params;
 	const [messages, setMessages] = useState([]);
 
 	useEffect(() => {
+		console.log("Chat connection ", isConnected);
 		navigation.setOptions({ title: name }); //sets Username to title on use of component
 		// queries db to load all previous messages
 		const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
@@ -28,7 +29,7 @@ const Chat = ({ navigation, route, db }) => {
 		return () => {
 			if (unsubMessages) unsubMessages();
 		};
-	}, []);
+	}, [isConnected]);
 
 	const onSend = (newMessages) => {
 		const newMessageRef = addDoc(collection(db, "messages"), newMessages[0]);
