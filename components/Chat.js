@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
-import { GiftedChat, Bubble } from "react-native-gifted-chat";
+import { GiftedChat, Bubble, InputToolbar } from "react-native-gifted-chat";
 import { collection, getDocs, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Chat = ({ navigation, route, db, isConnected }) => {
 	const { name } = route.params;
@@ -9,43 +10,55 @@ const Chat = ({ navigation, route, db, isConnected }) => {
 	const { userID } = route.params;
 	const [messages, setMessages] = useState([]);
 
+	let unsubMessages;
+
 	useEffect(() => {
 		console.log("Chat connection ", isConnected);
 		navigation.setOptions({ title: name }); //sets Username to title on use of component
 		// queries db to load all previous messages
-		const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
-		const unsubMessages = onSnapshot(q, (docs) => {
-			let newMessages = [];
-			docs.forEach((doc) => {
-				newMessages.push({
-					id: doc.id,
-					...doc.data(),
-					createdAt: new Date(doc.data().createdAt.toMillis()), //updates date to proper format for GiftedChat
+
+		if (isConnected === true) {
+			if (unsubMessages) unsubMessages();
+			unsubMessages = null;
+			const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+			unsubMessages = onSnapshot(q, (docs) => {
+				let newMessages = [];
+				docs.forEach((doc) => {
+					newMessages.push({
+						id: doc.id,
+						...doc.data(),
+						createdAt: new Date(doc.data().createdAt.toMillis()), //updates date to proper format for GiftedChat
+					});
 				});
+				cacheMessages(newMessages);
+				setMessages(newMessages);
 			});
-			setMessages(newMessages);
-		});
+		} else {
+			loadCachedMessages();
+			console.log("these messages are cached!");
+		}
 		//cleans up code
 		return () => {
 			if (unsubMessages) unsubMessages();
 		};
 	}, [isConnected]);
 
-	const onSend = (newMessages) => {
-		const newMessageRef = addDoc(collection(db, "messages"), newMessages[0]);
+	const cacheMessages = async (messagesToCache) => {
+		try {
+			await AsyncStorage.setItem("message_list", JSON.stringify(messagesToCache));
+		} catch (error) {
+			console.log(error.message);
+		}
 	};
 
-	const addShoppingList = async (newList) => {
-		const newListRef = await addDoc(collection(db, "shoppinglists"), newList);
-		if (newListRef.id) {
-			// setLists([newList, ...lists]); //calling this here ensures a list reload via useEffect as you are updating state
-			setListName("");
-			setItem1("");
-			setItem2("");
-			Alert.alert(`The list "${listName}" has been added.`);
-		} else {
-			Alert.alert("Unable to add. Please try later");
-		}
+	const loadCachedMessages = async () => {
+		const cachedMessages = (await AsyncStorage.getItem("message_list")) || [];
+		setMessages(JSON.parse(cachedMessages));
+		console.log("loaded to cached messages...");
+	};
+
+	const onSend = (newMessages) => {
+		const newMessageRef = addDoc(collection(db, "messages"), newMessages[0]);
 	};
 
 	const renderBubble = (props) => {
@@ -69,6 +82,12 @@ const Chat = ({ navigation, route, db, isConnected }) => {
 		);
 	};
 
+	const renderInputToolbar = (props) => {
+		if (isConnected === true) {
+			return <InputToolbar {...props} />;
+		} else return null;
+	};
+
 	return (
 		<View
 			style={[
@@ -85,6 +104,7 @@ const Chat = ({ navigation, route, db, isConnected }) => {
 					name: name,
 				}}
 				renderBubble={renderBubble}
+				renderInputToolbar={renderInputToolbar}
 			/>
 			{Platform.OS === "android" ? <KeyboardAvoidingView behavior='height' /> : null}
 			{Platform.OS === "ios" ? <KeyboardAvoidingView behavior='height' /> : null}
