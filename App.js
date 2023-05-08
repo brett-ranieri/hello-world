@@ -4,11 +4,15 @@ import Chat from "./components/Chat";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, enableNetwork, disableNetwork } from "firebase/firestore";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { useEffect } from "react";
+import { Alert } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+	const connectionStatus = useNetInfo();
 	// connect app to Firebase
 	const firebaseConfig = {
 		apiKey: "AIzaSyBlugMRKwIZljelIvDE8HuXgsaI_IHPxBY",
@@ -23,6 +27,17 @@ const App = () => {
 	// establish reference to Firebase DB
 	const db = getFirestore(app);
 
+	useEffect(() => {
+		if (connectionStatus.isConnected === false) {
+			Alert.alert("Connection lost!");
+			console.log("App - connection lost", connectionStatus.isConnected);
+			disableNetwork(db);
+		} else if (connectionStatus.isConnected === true) {
+			console.log("App - connection ", connectionStatus.isConnected);
+			enableNetwork(db);
+		}
+	}, [connectionStatus.isConnected]);
+
 	return (
 		<NavigationContainer>
 			<Stack.Navigator initialRouteName='Start'>
@@ -34,6 +49,7 @@ const App = () => {
 					{(props) => (
 						<Chat
 							db={db}
+							isConnected={connectionStatus.isConnected}
 							{...props}
 						/>
 					)}
