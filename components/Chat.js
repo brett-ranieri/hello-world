@@ -4,6 +4,7 @@ import { GiftedChat, Bubble, InputToolbar } from "react-native-gifted-chat";
 import { collection, getDocs, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomActions from "./CustomActions";
+import MapView from "react-native-maps";
 
 const Chat = ({ navigation, route, db, isConnected }) => {
 	const { name } = route.params;
@@ -90,7 +91,31 @@ const Chat = ({ navigation, route, db, isConnected }) => {
 	};
 
 	const renderCustomActions = (props) => {
-		return <CustomActions {...props} />;
+		return <CustomActions {...props} />; //passes all props from GiftedChat to CustomActions
+	};
+
+	//grabs location information and renders it in chat
+	const renderCustomView = (props) => {
+		const { currentMessage } = props;
+		if (currentMessage.location) {
+			return (
+				<MapView
+					style={{
+						width: 150,
+						height: 100,
+						borderRadius: 13,
+						margin: 3,
+					}}
+					region={{
+						latitude: currentMessage.location.latitude,
+						longitude: currentMessage.location.longitude,
+						latitudeDelta: 0.0922,
+						longitudeDelta: 0.0421,
+					}}
+				/>
+			);
+		}
+		return null;
 	};
 
 	return (
@@ -110,7 +135,8 @@ const Chat = ({ navigation, route, db, isConnected }) => {
 				}}
 				renderBubble={renderBubble}
 				renderInputToolbar={renderInputToolbar}
-				renderActions={renderCustomActions}
+				renderActions={renderCustomActions} //used to pass props to create custom ActionSheet
+				renderCustomView={renderCustomView} //used to create custom view needed to send ma
 			/>
 			{Platform.OS === "android" ? <KeyboardAvoidingView behavior='height' /> : null}
 			{Platform.OS === "ios" ? <KeyboardAvoidingView behavior='height' /> : null}
