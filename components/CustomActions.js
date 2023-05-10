@@ -12,8 +12,10 @@ import {
 } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import * as Location from "expo-location";
+import * as ImagePicker from "expo-image-picker";
+import { ref, uploadBytes } from "firebase/storage";
 
-const CustomActions = ({ wrapperStyle, iconTextStyle, onSend }) => {
+const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID }) => {
 	const actionSheet = useActionSheet();
 
 	const onActionPress = () => {
@@ -28,6 +30,7 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend }) => {
 				switch (buttonIndex) {
 					case 0:
 						console.log("user wants to pick an image");
+						pickImage();
 						return;
 					case 1:
 						console.log("user wants to take a photo");
@@ -41,6 +44,33 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend }) => {
 		);
 	};
 
+	const generateReference = (uri) => {
+		const timeStamp = new Date().getTime();
+		const imageName = uri.split("/")[uri.split("/").length - 1];
+		return `${userID}-${timeStamp}-${imageName}`;
+	};
+	//picks image from library of user device
+	const pickImage = async () => {
+		let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
+		try {
+			if (permissions?.granted) {
+				let result = await ImagePicker.launchImageLibraryAsync();
+				if (!result.canceled) {
+					const imageURI = result.assets[0].uri;
+					const uniqueRefString = generateReference(imageURI);
+					const response = await fetch(imageURI);
+					const blob = await response.blob();
+					const newUploadRef = ref(storage, uniqueRefString);
+					uploadBytes(newUploadRef, blob).then(async (snapshot) => {
+						console.log("File has been uploaded successfully");
+					});
+				} else Alert.alert("Permissions haven't been granted.");
+			}
+		} catch (error) {
+			console.log("something messed up");
+			console.log(error);
+		}
+	};
 	//gets location from user device
 	const getLocation = async () => {
 		let permissions = await Location.requestForegroundPermissionsAsync();

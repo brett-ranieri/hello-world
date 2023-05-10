@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomActions from "./CustomActions";
 import MapView from "react-native-maps";
 
-const Chat = ({ navigation, route, db, isConnected }) => {
+const Chat = ({ navigation, route, db, isConnected, storage }) => {
 	const { name } = route.params;
 	const { background } = route.params;
 	const { userID } = route.params;
@@ -91,7 +91,13 @@ const Chat = ({ navigation, route, db, isConnected }) => {
 	};
 
 	const renderCustomActions = (props) => {
-		return <CustomActions {...props} />; //passes all props from GiftedChat to CustomActions
+		return (
+			<CustomActions
+				storage={storage}
+				userID={userID}
+				{...props}
+			/>
+		); //passes all props from GiftedChat to CustomActions
 	};
 
 	//grabs location information and renders it in chat

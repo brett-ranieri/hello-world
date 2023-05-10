@@ -8,6 +8,7 @@ import { getFirestore, enableNetwork, disableNetwork } from "firebase/firestore"
 import { useNetInfo } from "@react-native-community/netinfo";
 import { useEffect } from "react";
 import { Alert } from "react-native";
+import { getStorage } from "firebase/storage";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,8 @@ const App = () => {
 	const app = initializeApp(firebaseConfig);
 	// establish reference to Firebase DB
 	const db = getFirestore(app);
+	// establish reference to Firebase Storage
+	const storage = getStorage(app);
 
 	useEffect(() => {
 		if (connectionStatus.isConnected === false) {
@@ -49,6 +52,7 @@ const App = () => {
 					{(props) => (
 						<Chat
 							db={db}
+							storage={storage}
 							isConnected={connectionStatus.isConnected}
 							{...props}
 						/>
