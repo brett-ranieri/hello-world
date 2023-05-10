@@ -33,7 +33,6 @@ const Start = ({ navigation }) => {
 			});
 	};
 
-	// sets background color to pass to Chat screen, index determines border on choosen opacity
 	function changeBackground(color, index) {
 		setBackground(color);
 		setButtonIndex(index);
@@ -52,7 +51,7 @@ const Start = ({ navigation }) => {
 						style={[styles.text, styles.textInput]}
 						placeholder='Your Name'
 						value={name}
-						onChangeText={setName} //sets Username to pass to Chat screen
+						onChangeText={setName}
 					></TextInput>
 					<View style={styles.backgroundContainer}>
 						<Text style={styles.text}>Choose Background Color:</Text>
