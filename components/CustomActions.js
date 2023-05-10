@@ -13,7 +13,7 @@ import {
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import * as Location from "expo-location";
 import * as ImagePicker from "expo-image-picker";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID }) => {
 	const actionSheet = useActionSheet();
@@ -59,10 +59,12 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
 					const imageURI = result.assets[0].uri;
 					const uniqueRefString = generateReference(imageURI);
 					const response = await fetch(imageURI);
-					const blob = await response.blob();
+					const blob = await response.blob(); //need to turn image into a blob to store on firebase
 					const newUploadRef = ref(storage, uniqueRefString);
 					uploadBytes(newUploadRef, blob).then(async (snapshot) => {
 						console.log("File has been uploaded successfully");
+						const imageURL = await getDownloadURL(snapshot.ref);
+						onSend({ image: imageURL });
 					});
 				} else Alert.alert("Permissions haven't been granted.");
 			}
