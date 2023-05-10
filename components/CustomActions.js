@@ -1,15 +1,4 @@
-import { useState } from "react";
-import {
-	StyleSheet,
-	View,
-	Text,
-	TouchableOpacity,
-	TextInput,
-	ImageBackground,
-	KeyboardAvoidingView,
-	Platform,
-	Alert,
-} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import * as Location from "expo-location";
 import * as ImagePicker from "expo-image-picker";
@@ -29,15 +18,12 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
 			async (buttonIndex) => {
 				switch (buttonIndex) {
 					case 0:
-						console.log("user wants to pick an image");
 						pickImage();
 						return;
 					case 1:
-						console.log("user wants to take a photo");
 						takePhoto();
 						return;
 					case 2:
-						console.log("user wants to get their location");
 						getLocation();
 					default:
 				}
@@ -51,19 +37,17 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
 		return `${userID}-${timeStamp}-${imageName}`;
 	};
 
-	//uploads image to storage and sends image as message
 	const uploadAndSendMessage = async (imageURI) => {
 		const uniqueRefString = generateReference(imageURI);
 		const response = await fetch(imageURI);
-		const blob = await response.blob(); //need to turn image into a blob to store on firebase
+		const blob = await response.blob();
 		const newUploadRef = ref(storage, uniqueRefString);
 		uploadBytes(newUploadRef, blob).then(async (snapshot) => {
-			console.log("File has been uploaded successfully");
 			const imageURL = await getDownloadURL(snapshot.ref);
 			onSend({ image: imageURL });
 		});
 	};
-	//picks image from library of user device
+
 	const pickImage = async () => {
 		let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
 		try {
@@ -74,11 +58,10 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
 				} else Alert.alert("Permissions haven't been granted.");
 			}
 		} catch (error) {
-			console.log("something messed up");
 			console.log(error);
 		}
 	};
-	//opens camera for user to take image
+
 	const takePhoto = async () => {
 		let permissions = await ImagePicker.requestCameraPermissionsAsync();
 		try {
@@ -89,11 +72,10 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
 				} else Alert.alert("Permissions haven't been granted.");
 			}
 		} catch (error) {
-			console.log("something messed up");
 			console.log(error);
 		}
 	};
-	//gets location from user device
+
 	const getLocation = async () => {
 		let permissions = await Location.requestForegroundPermissionsAsync();
 		if (permissions?.granted) {
@@ -120,6 +102,7 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
 		</TouchableOpacity>
 	);
 };
+
 const styles = StyleSheet.create({
 	container: {
 		width: 26,

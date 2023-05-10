@@ -15,9 +15,7 @@ const Chat = ({ navigation, route, db, isConnected, storage }) => {
 	let unsubMessages;
 
 	useEffect(() => {
-		console.log("Chat connection ", isConnected);
-		navigation.setOptions({ title: name }); //sets Username to title on use of component
-		// queries db to load all previous messages
+		navigation.setOptions({ title: name });
 
 		if (isConnected === true) {
 			if (unsubMessages) unsubMessages();
@@ -29,7 +27,7 @@ const Chat = ({ navigation, route, db, isConnected, storage }) => {
 					newMessages.push({
 						id: doc.id,
 						...doc.data(),
-						createdAt: new Date(doc.data().createdAt.toMillis()), //updates date to proper format for GiftedChat
+						createdAt: new Date(doc.data().createdAt.toMillis()),
 					});
 				});
 				cacheMessages(newMessages);
@@ -37,9 +35,8 @@ const Chat = ({ navigation, route, db, isConnected, storage }) => {
 			});
 		} else {
 			loadCachedMessages();
-			console.log("these messages are cached!");
 		}
-		//cleans up code
+
 		return () => {
 			if (unsubMessages) unsubMessages();
 		};
@@ -56,7 +53,6 @@ const Chat = ({ navigation, route, db, isConnected, storage }) => {
 	const loadCachedMessages = async () => {
 		const cachedMessages = (await AsyncStorage.getItem("message_list")) || [];
 		setMessages(JSON.parse(cachedMessages));
-		console.log("loaded to cached messages...");
 	};
 
 	const onSend = (newMessages) => {
@@ -97,10 +93,9 @@ const Chat = ({ navigation, route, db, isConnected, storage }) => {
 				userID={userID}
 				{...props}
 			/>
-		); //passes all props from GiftedChat to CustomActions
+		);
 	};
 
-	//grabs location information and renders it in chat
 	const renderCustomView = (props) => {
 		const { currentMessage } = props;
 		if (currentMessage.location) {
@@ -141,8 +136,8 @@ const Chat = ({ navigation, route, db, isConnected, storage }) => {
 				}}
 				renderBubble={renderBubble}
 				renderInputToolbar={renderInputToolbar}
-				renderActions={renderCustomActions} //used to pass props to create custom ActionSheet
-				renderCustomView={renderCustomView} //used to create custom view needed to send ma
+				renderActions={renderCustomActions}
+				renderCustomView={renderCustomView}
 			/>
 			{Platform.OS === "android" ? <KeyboardAvoidingView behavior='height' /> : null}
 			{Platform.OS === "ios" ? <KeyboardAvoidingView behavior='height' /> : null}
