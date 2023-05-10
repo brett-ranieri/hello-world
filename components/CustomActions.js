@@ -34,6 +34,7 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
 						return;
 					case 1:
 						console.log("user wants to take a photo");
+						takePhoto();
 						return;
 					case 2:
 						console.log("user wants to get their location");
@@ -49,6 +50,19 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
 		const imageName = uri.split("/")[uri.split("/").length - 1];
 		return `${userID}-${timeStamp}-${imageName}`;
 	};
+
+	//uploads image to storage and sends image as message
+	const uploadAndSendMessage = async (imageURI) => {
+		const uniqueRefString = generateReference(imageURI);
+		const response = await fetch(imageURI);
+		const blob = await response.blob(); //need to turn image into a blob to store on firebase
+		const newUploadRef = ref(storage, uniqueRefString);
+		uploadBytes(newUploadRef, blob).then(async (snapshot) => {
+			console.log("File has been uploaded successfully");
+			const imageURL = await getDownloadURL(snapshot.ref);
+			onSend({ image: imageURL });
+		});
+	};
 	//picks image from library of user device
 	const pickImage = async () => {
 		let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -56,16 +70,22 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
 			if (permissions?.granted) {
 				let result = await ImagePicker.launchImageLibraryAsync();
 				if (!result.canceled) {
-					const imageURI = result.assets[0].uri;
-					const uniqueRefString = generateReference(imageURI);
-					const response = await fetch(imageURI);
-					const blob = await response.blob(); //need to turn image into a blob to store on firebase
-					const newUploadRef = ref(storage, uniqueRefString);
-					uploadBytes(newUploadRef, blob).then(async (snapshot) => {
-						console.log("File has been uploaded successfully");
-						const imageURL = await getDownloadURL(snapshot.ref);
-						onSend({ image: imageURL });
-					});
+					await uploadAndSendMessage(result.assets[0].uri);
+				} else Alert.alert("Permissions haven't been granted.");
+			}
+		} catch (error) {
+			console.log("something messed up");
+			console.log(error);
+		}
+	};
+	//opens camera for user to take image
+	const takePhoto = async () => {
+		let permissions = await ImagePicker.requestCameraPermissionsAsync();
+		try {
+			if (permissions?.granted) {
+				let result = await ImagePicker.launchCameraAsync();
+				if (!result.canceled) {
+					await uploadAndSendMessage(result.assets[0].uri);
 				} else Alert.alert("Permissions haven't been granted.");
 			}
 		} catch (error) {
