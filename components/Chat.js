@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
+import { StyleSheet, SafeAreaView, View, KeyboardAvoidingView, Platform } from "react-native";
 import { GiftedChat, Bubble, InputToolbar } from "react-native-gifted-chat";
 import { collection, getDocs, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -82,7 +82,12 @@ const Chat = ({ navigation, route, db, isConnected, storage }) => {
 
 	const renderInputToolbar = (props) => {
 		if (isConnected === true) {
-			return <InputToolbar {...props} />;
+			return (
+				<InputToolbar
+					{...props}
+					containerStyle={styles.inputToolbarStyle}
+				/>
+			);
 		} else return null;
 	};
 
@@ -100,27 +105,29 @@ const Chat = ({ navigation, route, db, isConnected, storage }) => {
 		const { currentMessage } = props;
 		if (currentMessage.location) {
 			return (
-				<MapView
-					style={{
-						width: 150,
-						height: 100,
-						borderRadius: 13,
-						margin: 3,
-					}}
-					region={{
-						latitude: currentMessage.location.latitude,
-						longitude: currentMessage.location.longitude,
-						latitudeDelta: 0.0922,
-						longitudeDelta: 0.0421,
-					}}
-				/>
+				<View style={styles.mapView}>
+					<MapView
+						style={{
+							width: 150,
+							height: 100,
+							borderRadius: 13,
+							margin: 3,
+						}}
+						region={{
+							latitude: currentMessage.location.latitude,
+							longitude: currentMessage.location.longitude,
+							latitudeDelta: 0.0922,
+							longitudeDelta: 0.0421,
+						}}
+					/>
+				</View>
 			);
 		}
 		return null;
 	};
 
 	return (
-		<View
+		<SafeAreaView
 			style={[
 				styles.container,
 				{ backgroundColor: background },
@@ -141,13 +148,23 @@ const Chat = ({ navigation, route, db, isConnected, storage }) => {
 			/>
 			{Platform.OS === "android" ? <KeyboardAvoidingView behavior='height' /> : null}
 			{Platform.OS === "ios" ? <KeyboardAvoidingView behavior='height' /> : null}
-		</View>
+		</SafeAreaView>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
+		flexGrow: 1,
+	},
+	inputToolbarStyle: {
+		marginLeft: 15,
+		marginRight: 15,
+		marginTop: 10,
+		borderRadius: 13,
+	},
+	mapView: {
+		borderRadius: 20,
+		overflow: "hidden",
 	},
 });
 
