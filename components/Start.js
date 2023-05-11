@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
 	StyleSheet,
+	SafeAreaView,
 	View,
 	Text,
 	TouchableOpacity,
@@ -99,7 +100,7 @@ const Start = ({ navigation }) => {
 				</View>
 			</ImageBackground>
 			{Platform.OS === "android" ? <KeyboardAvoidingView behavior='height' /> : null}
-			{Platform.OS === "ios" ? <KeyboardAvoidingView behavior='height' /> : null}
+			{Platform.OS === "ios" ? <KeyboardAvoidingView behavior='padding' /> : null}
 		</View>
 	);
 };
